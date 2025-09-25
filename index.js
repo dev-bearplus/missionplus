@@ -105,15 +105,18 @@ const mainScript = () => {
     return rect.bottom >= headerRect.height && rect.top - headerRect.height <= 0;
   }
   function isInMenuCheck(el) {
+    const spaceName = $(".main").attr("data-barba-namespace")
     const rect = $(el).get(0).getBoundingClientRect();
     const $joinMenu = $(".join-menu-wrap");
     const joinMenu = $(".join-menu-wrap").get(0).getBoundingClientRect();
-    const joinMenuCssTop = parseFloat($joinMenu.css("top")) || 0 + 4;
+    const joinMenuCssTop = (parseFloat($joinMenu.css("top")) || 0) + 3;
     const joinMenuPassed = joinMenu.top >= joinMenuCssTop ;
-    console.log(joinMenu.top)
-    if (joinMenuPassed) return true;
+    if (joinMenuPassed) {
+      if(spaceName == 'industry') return false;
+      return true
+    };
 
-    return rect.bottom >= joinMenu.height + joinMenuCssTop && rect.top - joinMenu.height <= 0;
+    return rect.bottom >= joinMenu.height + joinMenuCssTop  && rect.top - joinMenu.height - joinMenuCssTop  <= 0;
   }
 
   const distance = (x1, y1, x2, y2) => {
@@ -648,6 +651,56 @@ const mainScript = () => {
     }
   }
   const homeCta = new HomeCta('.home-cta');
+  class IndustryMenu extends TriggerSetup {
+    constructor(triggerEl) {
+      super(triggerEl);
+      this.swiperTesti;
+    }
+    trigger() {
+      super.setTrigger(this.setup.bind(this));
+      this.interact();
+    }
+    setup() {
+      if(viewport.w < 768) {
+        $('.industry-menu-cms').addClass('swiper')
+        $('.industry-menu-list').addClass('swiper-wrapper')
+        $('.industry-menu-item').addClass('swiper-slide')
+        let swiperBody = new Swiper(".industry-menu-cms", {
+          slidesPerView: 'auto',
+          speed: 600
+        });
+      }
+    }
+    interact() {
+      $('.industry-menu-item').on('click', function() {
+        $('.industry-menu-item').removeClass('active');
+        $(this).addClass('active');
+        let idScroll = '#' + $(this).attr('data-scroll');
+        scrollItem(idScroll)
+      })
+      function scrollItem(el) {
+        lenis.scrollTo(el, {
+          duration: 1, 
+          offset: (parseFloat($('.join-menu-wrap').css('top')) + $('.join-menu-wrap').height() - parseRem(1))*-1
+        })
+      }
+    }
+    toggleColorMode = (color) => {
+      let elArr = Array.from($(`[data-section="${color}"]`));
+      if (
+        elArr.some(function (el) {
+          return isInMenuCheck(el);
+        })
+      ) {
+        $(".join-menu-wrap").addClass(`on-${color}`);
+      } else {
+        $(".join-menu-wrap").removeClass(`on-${color}`);
+
+      }
+    }
+    
+  }
+  const industryMenu = new IndustryMenu('.industry-menu');
   class IndustrySupport extends TriggerSetup {
     constructor(triggerEl) {
       super(triggerEl);
@@ -1712,7 +1765,15 @@ const mainScript = () => {
       this.interact();
     }
     setup() {
-      
+      if(viewport.w < 768) {
+        $('.join-menu-cms').addClass('swiper')
+        $('.join-menu-list').addClass('swiper-wrapper')
+        $('.join-menu-item').addClass('swiper-slide')
+        let swiperBody = new Swiper(".join-menu-cms", {
+          slidesPerView: 'auto',
+          speed: 600
+        });
+      }
     }
     interact() {
       $('.join-menu-item').on('click', function() {
@@ -1768,6 +1829,36 @@ const mainScript = () => {
     }
   }
   const jointMissionWork = new JointMissionWork('.join-work');
+  class JointMissionProcess extends TriggerSetup {
+    constructor(triggerEl) {
+      super(triggerEl);
+      this.swiperTesti;
+    }
+    trigger() {
+      super.setTrigger(this.setup.bind(this));
+      this.interact();
+    }
+    setup() {
+      if(viewport.w < 992) {
+        $('.join-process-body-cms').addClass('swiper')
+        $('.join-process-body-list').addClass('swiper-wrapper')
+        $('.join-process-body-item').addClass('swiper-slide')
+        let swiperBody = new Swiper(".join-process-body-cms", {
+          slidesPerView: 'auto',
+          speed: 600,
+          pagination: {
+            el: '.join-process-pagi',
+            bulletClass: 'join-process-pagi-item',
+            bulletActiveClass: 'active',
+            clickable: true,
+          },
+        });
+      }
+    }
+    interact() {
+    }
+  }
+  const jointMissionProcess = new JointMissionProcess('.join-process');
   class Header extends TriggerSetupHero {
     constructor() {
       super();
@@ -1903,6 +1994,7 @@ const mainScript = () => {
       homeTesti.trigger();
     },
     industryScript: () => {
+      industryMenu.trigger();
       industryProfile.trigger();
       industryCasestudy.trigger();
       industrySupport.trigger();
@@ -1937,6 +2029,7 @@ const mainScript = () => {
     joinMissionScript: () => {
       jointMissionWork.trigger();
       jointMissionMenu.trigger();
+      jointMissionProcess.trigger();
     }
   };
   const initGlobal = () => {
@@ -1955,6 +2048,9 @@ const mainScript = () => {
       header.toggleColorMode("blue");
       if(pageName == 'joinMission') {
         jointMissionMenu.toggleColorMode('blue')
+      }
+      if(pageName == 'industry') {
+        industryMenu.toggleColorMode('blue')
       }
     });
   };
