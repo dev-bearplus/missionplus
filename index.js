@@ -684,6 +684,25 @@ const mainScript = () => {
           offset: (parseFloat($('.join-menu-wrap').css('top')) + $('.join-menu-wrap').height() - parseRem(1))*-1
         })
       }
+      lenis.on('scroll', ({ scroll, limit }) => {
+        checkActiveSection()
+      })
+
+      function checkActiveSection() {
+        let scrollPos = window.scrollY || window.pageYOffset
+
+        $('section').each(function () {
+          let top = $(this).offset().top
+          let height = $(this).outerHeight()
+          let id = $(this).attr('id')
+          if(!id) return false;
+          if (scrollPos >= top - 100 && scrollPos < top + height - 100) {
+            $('.industry-menu-item').removeClass('active')
+            $('.industry-menu-item[data-scroll="' + id + '"]').addClass('active')
+          }
+        })
+      }
+
     }
     toggleColorMode = (color) => {
       let elArr = Array.from($(`[data-section="${color}"]`));
@@ -750,7 +769,6 @@ const mainScript = () => {
         const $list = $(this)
         const $items = $list.children('.industry-casestudy-tag-item').toArray();
         const maxWidth = $(this).closest('.industry-casestudy-tag-cms').width();;
-        console.log(maxWidth)
         $list.empty(); // clear list
       
         
@@ -815,6 +833,7 @@ const mainScript = () => {
           }
         }
       });
+      console.log(this.swiperTesti)
     }
     interact() {
       
@@ -1563,6 +1582,11 @@ const mainScript = () => {
     }
     setup() {
       this.initContentPopup();
+      $('.tp-insight-content-tag-item-inner').each((idx,item) => {
+        let widthContent = $(item).find('.txt').width() + parseInt($(item).css('padding-left')) + parseInt($(item).css('padding-right')) + parseRem(1);
+        console.log(widthContent)
+        $(item).css('width', widthContent)
+      })
       if($('.tp-insight-content-table-inner').outerHeight() >= viewport.h){
         $('.tp-insight-content-table-inner').attr('data-lenis-prevent', 'true');
       }
