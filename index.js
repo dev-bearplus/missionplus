@@ -782,18 +782,18 @@ const mainScript = () => {
       
         $items.forEach(item => {
           $more.before(item); 
-          console.log($list.width());
           if ($list.width() >= maxWidth) {
             $(item).hide();
             hiddenCount++;
           }
         });
-      
         if (hiddenCount > 0) {
-          $more.find('.industry-profile-post-item-tag-item-txt').text(`${hiddenCount}+`);
+          $more.find('.txt').text(`${hiddenCount}+`);
         } else {
           $more.remove(); 
         }
+        console.log(hiddenCount)
+      
       });
       this.swiperTesti = new Swiper(".industry-casestudy-cms", {
         slidesPerView: 'auto',
@@ -833,7 +833,6 @@ const mainScript = () => {
           }
         }
       });
-      console.log(this.swiperTesti)
     }
     interact() {
       
