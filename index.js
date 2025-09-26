@@ -1651,11 +1651,10 @@ const mainScript = () => {
         showNotification('Failed to copy link.', 'error');
     }
     function showNotification(message, type) {
-        $('.copy-notification').remove();
-        $('.copy-notification').text(message)
-        $('.copy-notification').addClass('active');
+        $('.tp-insight-content-social-tooltip').text(message)
+        $('.tp-insight-content-social-tooltip').addClass('active');
         setTimeout(function() {
-          $('.copy-notification').removeClass('active')
+          $('.tp-insight-content-social-tooltip').removeClass('active')
         }, 1000);
     }
     const metaDescription = $('meta[name="description"]').attr('content') || '';
