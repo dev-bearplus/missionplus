@@ -1581,6 +1581,115 @@ const mainScript = () => {
     }
     setup() {
       this.initContentPopup();
+    const currentURL = window.location.href;
+    const pageTitle = document.title;
+    const encodedURL = encodeURIComponent(currentURL);
+    const encodedTitle = encodeURIComponent(pageTitle);
+
+    $('.item-fb').on('click', function(e) {
+        e.preventDefault();
+        const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}`;
+        window.open(facebookURL, 'facebook-share', 'width=600,height=400,scrollbars=yes,resizable=yes');
+    });
+
+    $('.item-x').on('click', function(e) {
+        e.preventDefault();
+        const twitterURL = `https://twitter.com/intent/tweet?url=${encodedURL}&text=${encodedTitle}`;
+        window.open(twitterURL, 'twitter-share', 'width=600,height=400,scrollbars=yes,resizable=yes');
+    });
+
+    $('.item-linkin').on('click', function(e) {
+        e.preventDefault();
+        const linkedinURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedURL}`;
+        window.open(linkedinURL, 'linkedin-share', 'width=600,height=400,scrollbars=yes,resizable=yes');
+    });
+
+    $('.item-copy').on('click', function(e) {
+        e.preventDefault();
+        
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(currentURL).then(function() {
+                showCopySuccess();
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                fallbackCopyTextToClipboard(currentURL);
+            });
+        } else {
+            fallbackCopyTextToClipboard(currentURL);
+        }
+    });
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showCopySuccess();
+            } else {
+                showCopyError();
+            }
+        } catch (err) {
+            console.error('Fallback: Unable to copy', err);
+            showCopyError();
+        }
+        
+        document.body.removeChild(textArea);
+    }
+
+    function showCopySuccess() {
+        showNotification('Link copied !', 'success');
+    }
+    function showCopyError() {
+        showNotification('Failed to copy link.', 'error');
+    }
+    function showNotification(message, type) {
+        $('.copy-notification').remove();
+        $('.copy-notification').text(message)
+        $('.copy-notification').addClass('active');
+        setTimeout(function() {
+          $('.copy-notification').removeClass('active')
+        }, 1000);
+    }
+    const metaDescription = $('meta[name="description"]').attr('content') || '';
+    $('.item-fb').on('click', function(e) {
+        e.preventDefault();
+        const fbURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentURL)}&quote=${encodeURIComponent(pageTitle)}`;
+        openShareWindow(fbURL, 'Facebook Share');
+    });
+
+    $('.item-x').on('click', function(e) {
+        e.preventDefault();
+        const twitterText = pageTitle + ' ' + currentURL;
+        const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}`;
+        openShareWindow(twitterURL, 'Twitter Share');
+    });
+
+    $('.item-linkin').on('click', function(e) {
+        e.preventDefault();
+        const linkedinURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentURL)}&title=${encodeURIComponent(pageTitle)}&summary=${encodeURIComponent(metaDescription)}`;
+        openShareWindow(linkedinURL, 'LinkedIn Share');
+    });
+
+    function openShareWindow(url, title) {
+        const width = 600;
+        const height = 400;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+        
+        window.open(
+            url, 
+            title.replace(' ', '_').toLowerCase(),
+            `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+        );
+    }
       $('.tp-insight-content-tag-item-inner').each((idx,item) => {
         let widthContent = $(item).find('.txt').width() + parseInt($(item).css('padding-left')) + parseInt($(item).css('padding-right')) + parseRem(1);
         console.log(widthContent)
