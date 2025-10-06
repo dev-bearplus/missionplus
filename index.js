@@ -825,10 +825,10 @@ const mainScript = () => {
                          '<span class="' + totalClass + '"></span>';
                 },
                 formatFractionCurrent: function (number) {
-                  return number+1; // ở đây bạn có thể -1 hoặc +0 nếu Swiper đang lệch
+                  return number+2; // ở đây bạn có thể -1 hoặc +0 nếu Swiper đang lệch
                 },
                 formatFractionTotal: function (number) {
-                  return number+1; // có thể chỉnh nếu tổng bị lệch
+                  return number+2; // có thể chỉnh nếu tổng bị lệch
                 }
               },
           }
