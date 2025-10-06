@@ -106,6 +106,7 @@ const mainScript = () => {
   }
   function isInMenuCheck(el) {
     const spaceName = $(".main").attr("data-barba-namespace")
+    if($('.join-menu-wrap').length == 0) return;
     const rect = $(el).get(0).getBoundingClientRect();
     const $joinMenu = $(".join-menu-wrap");
     const joinMenu = $(".join-menu-wrap").get(0).getBoundingClientRect();
