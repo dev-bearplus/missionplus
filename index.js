@@ -813,7 +813,7 @@ const mainScript = () => {
         },
         breakpoints: {
           991: {
-            slidesPerView: 2,
+            slidesPerView: 3,
               spaceBetween: parseRem(0),
               pagination: {
                 el: '.industry-casestudy-control-number',
