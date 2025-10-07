@@ -773,36 +773,36 @@ const mainScript = () => {
       else if(viewport.w > 991 && lengthItems <=3) {
         $('.industry-casestudy-control').hide();
       }
-      $('.industry-casestudy-item .industry-casestudy-tag-list').each(function () {
-        const $list = $(this)
-        const $items = $list.children('.industry-casestudy-tag-item').toArray();
-        const maxWidth = $(this).closest('.industry-casestudy-tag-cms').width();;
-        $list.empty(); // clear list
+      // $('.industry-casestudy-item .industry-casestudy-tag-list').each(function () {
+      //   const $list = $(this)
+      //   const $items = $list.children('.industry-casestudy-tag-item').toArray();
+      //   const maxWidth = $(this).closest('.industry-casestudy-tag-cms').width();;
+      //   $list.empty(); // clear list
       
         
-        const $more = $(`
-          <div class="industry-casestudy-tag-item more">
-            <div class="txt txt-font-plex txt-14 industry-casestudy-tag-item-txt">0+</div>
-          </div>
-        `);
-        $list.append($more);
-        let hiddenCount = 0;
+      //   const $more = $(`
+      //     <div class="industry-casestudy-tag-item more">
+      //       <div class="txt txt-font-plex txt-14 industry-casestudy-tag-item-txt">0+</div>
+      //     </div>
+      //   `);
+      //   $list.append($more);
+      //   let hiddenCount = 0;
       
-        $items.forEach(item => {
-          $more.before(item); 
-          if ($list.width() >= maxWidth) {
-            $(item).hide();
-            hiddenCount++;
-          }
-        });
-        if (hiddenCount > 0) {
-          $more.find('.txt').text(`${hiddenCount}+`);
-        } else {
-          $more.remove(); 
-        }
-        console.log(hiddenCount)
+      //   $items.forEach(item => {
+      //     $more.before(item); 
+      //     if ($list.width() >= maxWidth) {
+      //       $(item).hide();
+      //       hiddenCount++;
+      //     }
+      //   });
+      //   if (hiddenCount > 0) {
+      //     $more.find('.txt').text(`${hiddenCount}+`);
+      //   } else {
+      //     $more.remove(); 
+      //   }
+      //   console.log(hiddenCount)
       
-      });
+      // });
       this.swiperTesti = new Swiper(".industry-casestudy-cms", {
         slidesPerView: 'auto',
         speed: 600,
