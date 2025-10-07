@@ -652,75 +652,75 @@ const mainScript = () => {
     }
   }
   const homeCta = new HomeCta('.home-cta');
-  class IndustryMenu extends TriggerSetup {
-    constructor(triggerEl) {
-      super(triggerEl);
-      this.swiperTesti;
-    }
-    trigger() {
-      super.setTrigger(this.setup.bind(this));
-      this.interact();
-    }
-    setup() {
-      if(viewport.w < 768) {
-        $('.industry-menu-cms').addClass('swiper')
-        $('.industry-menu-list').addClass('swiper-wrapper')
-        $('.industry-menu-item').addClass('swiper-slide')
-        let swiperBody = new Swiper(".industry-menu-cms", {
-          slidesPerView: 'auto',
-          speed: 600
-        });
-      }
-    }
-    interact() {
-      $('.industry-menu-item').on('click', function() {
-        $('.industry-menu-item').removeClass('active');
-        $(this).addClass('active');
-        let idScroll = '#' + $(this).attr('data-scroll');
-        scrollItem(idScroll)
-      })
-      function scrollItem(el) {
-        lenis.scrollTo(el, {
-          duration: 1, 
-          offset: (parseFloat($('.join-menu-wrap').css('top')) + $('.join-menu-wrap').height() - parseRem(1))*-1
-        })
-      }
-      lenis.on('scroll', ({ scroll, limit }) => {
-        checkActiveSection()
-      })
+  // class IndustryMenu extends TriggerSetup {
+  //   constructor(triggerEl) {
+  //     super(triggerEl);
+  //     this.swiperTesti;
+  //   }
+  //   trigger() {
+  //     super.setTrigger(this.setup.bind(this));
+  //     this.interact();
+  //   }
+  //   setup() {
+  //     if(viewport.w < 768) {
+  //       $('.industry-menu-cms').addClass('swiper')
+  //       $('.industry-menu-list').addClass('swiper-wrapper')
+  //       $('.industry-menu-item').addClass('swiper-slide')
+  //       let swiperBody = new Swiper(".industry-menu-cms", {
+  //         slidesPerView: 'auto',
+  //         speed: 600
+  //       });
+  //     }
+  //   }
+  //   interact() {
+  //     $('.industry-menu-item').on('click', function() {
+  //       $('.industry-menu-item').removeClass('active');
+  //       $(this).addClass('active');
+  //       let idScroll = '#' + $(this).attr('data-scroll');
+  //       scrollItem(idScroll)
+  //     })
+  //     function scrollItem(el) {
+  //       lenis.scrollTo(el, {
+  //         duration: 1, 
+  //         offset: (parseFloat($('.join-menu-wrap').css('top')) + $('.join-menu-wrap').height() - parseRem(1))*-1
+  //       })
+  //     }
+  //     lenis.on('scroll', ({ scroll, limit }) => {
+  //       checkActiveSection()
+  //     })
 
-      function checkActiveSection() {
-        let scrollPos = window.scrollY || window.pageYOffset
+  //     function checkActiveSection() {
+  //       let scrollPos = window.scrollY || window.pageYOffset
 
-        $('section').each(function () {
-          let top = $(this).offset().top
-          let height = $(this).outerHeight()
-          let id = $(this).attr('id')
-          if(!id) return false;
-          if (scrollPos >= top - 100 && scrollPos < top + height - 100) {
-            $('.industry-menu-item').removeClass('active')
-            $('.industry-menu-item[data-scroll="' + id + '"]').addClass('active')
-          }
-        })
-      }
+  //       $('section').each(function () {
+  //         let top = $(this).offset().top
+  //         let height = $(this).outerHeight()
+  //         let id = $(this).attr('id')
+  //         if(!id) return false;
+  //         if (scrollPos >= top - 100 && scrollPos < top + height - 100) {
+  //           $('.industry-menu-item').removeClass('active')
+  //           $('.industry-menu-item[data-scroll="' + id + '"]').addClass('active')
+  //         }
+  //       })
+  //     }
 
-    }
-    toggleColorMode = (color) => {
-      let elArr = Array.from($(`[data-section="${color}"]`));
-      if (
-        elArr.some(function (el) {
-          return isInMenuCheck(el);
-        })
-      ) {
-        $(".join-menu-wrap").addClass(`on-${color}`);
-      } else {
-        $(".join-menu-wrap").removeClass(`on-${color}`);
+  //   }
+  //   toggleColorMode = (color) => {
+  //     let elArr = Array.from($(`[data-section="${color}"]`));
+  //     if (
+  //       elArr.some(function (el) {
+  //         return isInMenuCheck(el);
+  //       })
+  //     ) {
+  //       $(".join-menu-wrap").addClass(`on-${color}`);
+  //     } else {
+  //       $(".join-menu-wrap").removeClass(`on-${color}`);
 
-      }
-    }
+  //     }
+  //   }
     
-  }
-  const industryMenu = new IndustryMenu('.industry-menu');
+  // }
+  // const industryMenu = new IndustryMenu('.industry-menu');
   class IndustrySupport extends TriggerSetup {
     constructor(triggerEl) {
       super(triggerEl);
@@ -766,6 +766,13 @@ const mainScript = () => {
       this.interact();
     }
     setup() {
+      let lengthItems = $('.industry-casestudy-item').length;
+      if( lengthItems == 0){
+        $('.industry-casestudy').hide();
+      }
+      else if(viewport.w > 991 && lengthItems <=3) {
+        $('.industry-casestudy-control').hide();
+      }
       $('.industry-casestudy-item .industry-casestudy-tag-list').each(function () {
         const $list = $(this)
         const $items = $list.children('.industry-casestudy-tag-item').toArray();
@@ -825,10 +832,10 @@ const mainScript = () => {
                          '<span class="' + totalClass + '"></span>';
                 },
                 formatFractionCurrent: function (number) {
-                  return number+2; // ở đây bạn có thể -1 hoặc +0 nếu Swiper đang lệch
+                  return number+2; 
                 },
                 formatFractionTotal: function (number) {
-                  return number+2; // có thể chỉnh nếu tổng bị lệch
+                  return number+2; 
                 }
               },
           }
@@ -2126,7 +2133,7 @@ const mainScript = () => {
       homeTesti.trigger();
     },
     industryScript: () => {
-      industryMenu.trigger();
+      // industryMenu.trigger();
       industryProfile.trigger();
       industryCasestudy.trigger();
       industrySupport.trigger();
@@ -2181,9 +2188,9 @@ const mainScript = () => {
       if(pageName == 'joinMission') {
         jointMissionMenu.toggleColorMode('blue')
       }
-      if(pageName == 'industry') {
-        industryMenu.toggleColorMode('blue')
-      }
+      // if(pageName == 'industry') {
+      //   industryMenu.toggleColorMode('blue')
+      // }
     });
   };
   if (window.scrollY > 0) {
