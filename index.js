@@ -1263,6 +1263,7 @@ const mainScript = () => {
         }
         toggleProfile+=toggleItem;
       })
+      $('.casestudy-profile-filter-main').removeClass('df-init-hide');
       $(".casestudy-profile-filter-all").find('.label-txt').text(toggleProfile);
       $(".filter-total-show").text(toggleProfile);
       if(toggleProfile <= 1){
