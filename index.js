@@ -2156,6 +2156,7 @@ const mainScript = () => {
     }
   };
   const initGlobal = () => {
+    header.trigger();
     $('.loading-wrap').addClass('loaded');
     window.addEventListener("pageshow", function (event) {
       event.preventDefault();
@@ -2170,7 +2171,6 @@ const mainScript = () => {
       }
     });
     cursor.init();
-    header.trigger();
     homeCta.trigger();
     footer.trigger();
     window.addEventListener("popstate", function (event) {
