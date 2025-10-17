@@ -2156,8 +2156,8 @@ const mainScript = () => {
     }
   };
   const initGlobal = () => {
-    header.toggleColorMode("blue");
     $('.loading-wrap').addClass('loaded');
+    header.toggleColorMode("blue");
     window.addEventListener("pageshow", function (event) {
       event.preventDefault();
       var historyTraversal =
