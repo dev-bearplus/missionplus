@@ -130,26 +130,12 @@ const mainScript = () => {
       navigator.msMaxTouchPoints > 0
     );
   };
-  window.addEventListener("pageshow", function (event) {
-    event.preventDefault();
-    var historyTraversal =
-      event.persisted ||
-      (typeof window.performance != "undefined" &&
-        window.performance.navigation.type === 2);
-    if (historyTraversal) {
-      $(".header-menu-inner").removeAttr("style");
-      $(".header-menu-inner").removeClass("active");
-      $(".header-lang").removeClass("active");
-    }
-  });
   function activeItem(elArr, index) {
     elArr.forEach((el, idx) => {
       $(el).removeClass("active").eq(index).addClass("active");
     });
   }
-  window.addEventListener("popstate", function (event) {
-    location.reload();
-  });
+  
 
   if (!isTouchDevice()) {
     $("html").attr("data-has-cursor", "true");
@@ -197,8 +183,6 @@ const mainScript = () => {
         );
     });
 }
-
-
   function initShuffleHover() {
     let hover_shuffle_txt = new SplitType('[data-hover="hover-shuffle"] [data-hover="hover-shuffle-child"]', {types: 'lines, words, chars', lineClass: 'bp-line'});
     $('[data-hover="hover-shuffle"]').each(function () {
@@ -213,7 +197,6 @@ const mainScript = () => {
       });
     });
   }
-  viewport.w> 991 && initShuffleHover();
   function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -2173,10 +2156,26 @@ const mainScript = () => {
     }
   };
   const initGlobal = () => {
+    $('.loading-wrap').addClass('loaded');
+    window.addEventListener("pageshow", function (event) {
+      event.preventDefault();
+      var historyTraversal =
+        event.persisted ||
+        (typeof window.performance != "undefined" &&
+          window.performance.navigation.type === 2);
+      if (historyTraversal) {
+        $(".header-menu-inner").removeAttr("style");
+        $(".header-menu-inner").removeClass("active");
+        $(".header-lang").removeClass("active");
+      }
+    });
     cursor.init();
     header.trigger();
     homeCta.trigger();
     footer.trigger();
+    window.addEventListener("popstate", function (event) {
+      location.reload();
+    });
     const pageName = $(".main").attr("data-barba-namespace");
     if (pageName) {
       SCRIPT[`${pageName}Script`]();
@@ -2197,7 +2196,10 @@ const mainScript = () => {
   if (window.scrollY > 0) {
     lenis.scrollTo(0, {
       duration: 0.001,
-      onComplete: () => initGlobal(),
+      onComplete: () =>{
+        viewport.w> 991 && initShuffleHover();
+        initGlobal();
+      } 
     });
   } else {
     initGlobal();
