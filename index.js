@@ -2156,7 +2156,7 @@ const mainScript = () => {
     }
   };
   const initGlobal = () => {
-    header.trigger();
+    header.toggleColorMode("blue");
     $('.loading-wrap').addClass('loaded');
     window.addEventListener("pageshow", function (event) {
       event.preventDefault();
@@ -2171,6 +2171,7 @@ const mainScript = () => {
       }
     });
     cursor.init();
+    header.trigger();
     homeCta.trigger();
     footer.trigger();
     window.addEventListener("popstate", function (event) {
@@ -2182,7 +2183,7 @@ const mainScript = () => {
     }
     let isHasMenuSticky = $('.main').attr('hasMenuSticky');
     let menuSticky = $('[menuStickyMain]');
-    header.toggleColorMode("blue");
+    
     lenis.on("scroll", function (inst) {
       header.toggleColorMode("blue");
       if(pageName == 'joinMission') {
